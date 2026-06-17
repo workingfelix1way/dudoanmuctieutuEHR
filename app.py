@@ -19,7 +19,6 @@ st.sidebar.title("⚙️ Cài đặt hiển thị")
 st.sidebar.button("🌓 Đổi Giao Diện (Sáng/Tối)", on_click=toggle_theme)
 
 if st.session_state.dark_mode:
-    # --- CSS CHẾ ĐỘ TỐI ---
     dark_css = """
     <style>
         [data-testid="stAppViewContainer"] { background-color: #0a0a0a; }
@@ -56,7 +55,6 @@ if st.session_state.dark_mode:
     """
     st.markdown(dark_css, unsafe_allow_html=True)
 else:
-    # --- CSS CHẾ ĐỘ SÁNG ---
     light_css = """
     <style>
         [data-testid="stAppViewContainer"] { background-color: #ffffff; }
@@ -217,4 +215,4 @@ with tab2:
         else: st.warning("Thiếu scatter_plot.png")
             
     
-# python3 -m streamlit run app.py --server.headless=true --server.address=127.0.0.1 --server.port=8508
+# python -m streamlit run app.py
