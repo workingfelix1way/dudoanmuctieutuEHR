@@ -8,8 +8,93 @@ import os
 
 st.set_page_config(page_title="Hệ thống EHR Đa Mục Tiêu", page_icon="🏥", layout="wide")
 
+if 'dark_mode' not in st.session_state:
+    st.session_state.dark_mode = True
+
+
+def toggle_theme():
+    st.session_state.dark_mode = not st.session_state.dark_mode
+
+st.sidebar.title("⚙️ Cài đặt hiển thị")
+st.sidebar.button("🌓 Đổi Giao Diện (Sáng/Tối)", on_click=toggle_theme)
+
+if st.session_state.dark_mode:
+    # --- CSS CHẾ ĐỘ TỐI ---
+    dark_css = """
+    <style>
+        [data-testid="stAppViewContainer"] { background-color: #0a0a0a; }
+        [data-testid="stSidebar"] { background-color: #1a1a1a; border-right: 1px solid #333; }
+        [data-testid="stHeader"] { background-color: rgba(10, 10, 10, 0); }
+        
+        /* Chữ màu sáng */
+        .stApp, .stApp p, .stApp h1, .stApp h2, .stApp h3, .stApp label, .stApp span, .stApp div[data-testid="stMetricValue"], .stApp div[data-testid="stMetricLabel"] { 
+            color: #f5f5f5 !important; 
+        }
+        
+        /* Ô nhập liệu tối màu */
+        input, div[data-baseweb="select"] > div, div[data-baseweb="base-input"], div[data-baseweb="input"] {
+            background-color: #2b2b2b !important;
+            color: #f5f5f5 !important;
+            border: 1px solid #444 !important;
+        }
+
+        /* Nút + và - trong Number Input */
+        div[data-testid="stNumberInput"] button {
+            background-color: #2b2b2b !important;
+        }
+        div[data-testid="stNumberInput"] button svg {
+            fill: #f5f5f5 !important;
+        }
+
+        /* NÚT ĐỔI GIAO DIỆN TRONG SIDEBAR (CHẾ ĐỘ TỐI) */
+        [data-testid="stSidebar"] button {
+            background-color: #2b2b2b !important;
+            color: #f5f5f5 !important;
+            border: 1px solid #444 !important;
+        }
+    </style>
+    """
+    st.markdown(dark_css, unsafe_allow_html=True)
+else:
+    # --- CSS CHẾ ĐỘ SÁNG ---
+    light_css = """
+    <style>
+        [data-testid="stAppViewContainer"] { background-color: #ffffff; }
+        [data-testid="stSidebar"] { background-color: #f0f2f6; border-right: 1px solid #ddd; }
+        [data-testid="stHeader"] { background-color: rgba(255, 255, 255, 0); }
+        
+        /* Chữ màu tối */
+        .stApp, .stApp p, .stApp h1, .stApp h2, .stApp h3, .stApp label, .stApp span, .stApp div[data-testid="stMetricValue"], .stApp div[data-testid="stMetricLabel"] { 
+            color: #333333 !important; 
+        }
+        
+        /* Ô nhập liệu trắng */
+        input, div[data-baseweb="select"] > div, div[data-baseweb="base-input"], div[data-baseweb="input"] {
+            background-color: #ffffff !important;
+            color: #333333 !important;
+            border: 1px solid #cccccc !important;
+        }
+
+        /* Nút + và - trong Number Input */
+        div[data-testid="stNumberInput"] button {
+            background-color: #f0f2f6 !important;
+        }
+        div[data-testid="stNumberInput"] button svg {
+            fill: #333333 !important;
+        }
+
+        /* NÚT ĐỔI GIAO DIỆN TRONG SIDEBAR (CHẾ ĐỘ SÁNG) */
+        [data-testid="stSidebar"] button {
+            background-color: #ffffff !important;
+            color: #333333 !important;
+            border: 1px solid #cccccc !important;
+        }
+    </style>
+    """
+    st.markdown(light_css, unsafe_allow_html=True)
+    
 st.title("🏥 Hệ Thống Dự Đoán Đa Mục Tiêu Từ Bệnh Án Điện Tử (EHR)")
-st.markdown("**Bản nâng cấp: Mạng Deep Learning Đa Nhiệm (Multi-task Learning Pytorch)**")
+st.markdown("**Created by Felix1way, ThaoNguyen**")
 st.write("---")
 
 class MultiTaskNet(nn.Module):
